@@ -2,7 +2,7 @@
 
 Rode o projeto
 
-    docker-compose up -d
+    docker-compose up
 
 Veja o resultado em
 
