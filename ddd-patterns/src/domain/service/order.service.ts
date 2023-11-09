@@ -14,7 +14,7 @@ export default class OrderService {
     }
 
     const order = new Order(uuid(), customer.id, items);
-    customer.addRewardPonts(order.total() / 2);
+    customer.addRewardPoints(order.total() / 2);
     return order;
   }
 }
