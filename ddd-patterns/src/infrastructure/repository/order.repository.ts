@@ -37,20 +37,30 @@ export default class OrderRepository implements OrderRepositoryInterface {
         )
     );
 
-    console.log(updatedItems);
+    const itemsOnDB = await OrderItemModel.findAll({
+      where: { order_id: entity.id },
+    });
+
+    for (const updatedItem of updatedItems) {
+      const itemExistsOnDB = itemsOnDB.find(
+        (itemOnDB) => itemOnDB.id === updatedItem.id
+      );
+
+      if (!itemExistsOnDB) {
+        await OrderItemModel.create({
+          id: updatedItem.id,
+          product_id: updatedItem.productId,
+          order_id: entity.id,
+          quantity: updatedItem.quantity,
+          name: updatedItem.name,
+          price: updatedItem.price,
+        });
+      }
+    }
 
     await OrderModel.update(
-      {
-        id: entity.id,
-        customer_id: entity.customerId,
-        total: entity.total(),
-        items: updatedItems,
-      },
-      {
-        where: {
-          id: entity.id,
-        },
-      }
+      { total: entity.total() },
+      { where: { id: entity.id } }
     );
   }
 
