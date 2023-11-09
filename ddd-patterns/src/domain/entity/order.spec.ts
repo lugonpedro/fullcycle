@@ -40,6 +40,6 @@ describe("Order unit tests", () => {
     expect(() => {
       const item = new OrderItem("i1", "Item 1", 100, "p1", 0);
       const order = new Order("o1", "c1", [item]);
-    }).toThrowError("Quantity must be greater than zero");
+    }).toThrowError("Quantity must be greater than 0");
   });
 });
