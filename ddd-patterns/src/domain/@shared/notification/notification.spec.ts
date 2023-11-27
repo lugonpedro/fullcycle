@@ -22,5 +22,20 @@ describe("Unit test for notifications", () => {
     expect(notification.messages("customer")).toBe(
       "customer: error message,customer: error message 2,"
     );
+
+    const error3 = {
+      message: "error message 3",
+      context: "order",
+    };
+
+    notification.addError(error3);
+
+    expect(notification.messages("customer")).toBe(
+      "customer: error message,customer: error message 2,"
+    );
+
+    expect(notification.messages()).toBe(
+      "customer: error message,customer: error message 2,order: error message 3,"
+    );
   });
 });
