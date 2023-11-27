@@ -79,6 +79,35 @@ describe("E2E tests for customer", () => {
     expect(customer2.address.street).toBe("Street 2");
   });
 
+  it("should find a customer", async () => {
+    const response = await request(app)
+      .post("/customer")
+      .send({
+        name: "John",
+        address: {
+          street: "Street",
+          city: "City",
+          number: 123,
+          zip: "12345",
+        },
+      });
+
+    expect(response.status).toBe(201);
+    expect(response.body.name).toBe("John");
+    expect(response.body.address.street).toBe("Street");
+    expect(response.body.address.city).toBe("City");
+    expect(response.body.address.number).toBe(123);
+    expect(response.body.address.zip).toBe("12345");
+
+    const response2 = await request(app).get(`/customer/${response.body.id}`);
+    expect(response2.status).toBe(200);
+    expect(response2.body.name).toBe("John");
+    expect(response2.body.address.street).toBe("Street");
+    expect(response2.body.address.city).toBe("City");
+    expect(response2.body.address.number).toBe(123);
+    expect(response2.body.address.zip).toBe("12345");
+  });
+
   it("should update a customer", async () => {
     const response = await request(app)
       .post("/customer")
