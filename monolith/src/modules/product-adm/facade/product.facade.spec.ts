@@ -1,8 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import ProductModel from "../repository/sequelize/product.model";
-import ProductRepository from "../repository/sequelize/product.repository";
-import AddProductUseCase from "../usecase/add-product/add-product.usecase";
-import ProductFacade from "./product.facade";
+import ProductFacadeFactory from "../factory/product.facade.factory";
 
 describe("Product facade test", () => {
   let sequelize: Sequelize;
@@ -24,12 +22,7 @@ describe("Product facade test", () => {
   });
 
   it("should create a product", async () => {
-    const productRepository = new ProductRepository();
-    const addProductUseCase = new AddProductUseCase(productRepository);
-    const productFacade = new ProductFacade({
-      addUsecase: addProductUseCase,
-      checkStockUsecase: undefined,
-    });
+    const productFacadeFactory = ProductFacadeFactory.create();
 
     const input = {
       id: "1",
@@ -39,7 +32,7 @@ describe("Product facade test", () => {
       stock: 10,
     };
 
-    await productFacade.addProduct(input);
+    await productFacadeFactory.addProduct(input);
 
     const product = await ProductModel.findOne({ where: { id: "1" } });
 
@@ -49,5 +42,27 @@ describe("Product facade test", () => {
     expect(product.description).toBe(input.description);
     expect(product.purchasePrice).toBe(input.purchasePrice);
     expect(product.stock).toBe(input.stock);
+  });
+
+  it("should check stock of a product", async () => {
+    const productFacadeFactory = ProductFacadeFactory.create();
+    const product = await ProductModel.create({
+      id: "1",
+      name: "Product 1",
+      description: "Product 1 description",
+      purchasePrice: 100,
+      stock: 10,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    const input = {
+      id: "1",
+    };
+
+    const result = await productFacadeFactory.checkStock(input);
+
+    expect(result.id).toBe(product.id);
+    expect(result.stock).toBe(product.stock);
   });
 });
