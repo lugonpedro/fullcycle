@@ -62,8 +62,6 @@ describe("Product sequelize repository test", () => {
 
     const product = await productRepository.find("1");
 
-    console.log(product);
-
     expect(product.id.id).toEqual("1");
     expect(product.name).toEqual("Product 1");
     expect(product.description).toEqual("Product 1 description");
