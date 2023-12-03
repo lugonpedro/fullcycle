@@ -46,7 +46,7 @@ describe("Product facade test", () => {
 
   it("should check stock of a product", async () => {
     const productFacadeFactory = ProductFacadeFactory.create();
-    const product = await ProductModel.create({
+    const input = {
       id: "1",
       name: "Product 1",
       description: "Product 1 description",
@@ -54,15 +54,13 @@ describe("Product facade test", () => {
       stock: 10,
       createdAt: new Date(),
       updatedAt: new Date(),
-    });
-
-    const input = {
-      id: "1",
     };
 
-    const result = await productFacadeFactory.checkStock(input);
+    await productFacadeFactory.addProduct(input);
 
-    expect(result.id).toBe(product.id);
-    expect(result.stock).toBe(product.stock);
+    const result = await productFacadeFactory.checkStock({ id: "1" });
+
+    expect(result.id).toBe(input.id);
+    expect(result.stock).toBe(input.stock);
   });
 });
