@@ -1,10 +1,9 @@
 import UseCaseInterface from "../../../@shared/usecase/use-case.interface";
-import Product from "../../domain/product.entity";
-import ProductGateway from "../../gateway/product.gateway";
+import StoreCatalogGateway from "../../gateway/store-catalog.gateway";
 import { FindProductInputDto, FindProductOutputDto } from "./find-product.dto";
 
 export default class FindProductUseCase implements UseCaseInterface {
-  constructor(private productRepository: ProductGateway) {}
+  constructor(private productRepository: StoreCatalogGateway) {}
 
   async execute(input: FindProductInputDto): Promise<FindProductOutputDto> {
     const product = await this.productRepository.find(input.id);
