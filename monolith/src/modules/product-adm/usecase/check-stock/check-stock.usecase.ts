@@ -1,10 +1,10 @@
-import ProductGateway from "../../gateway/product.gateway";
+import ProductAdmGateway from "../../gateway/product-adm.gateway";
 import { CheckStockInputDto, CheckStockOutputDto } from "./check-stock.dto";
 
 export default class CheckStockProductUseCase {
-  private _productRepository: ProductGateway;
+  private _productRepository: ProductAdmGateway;
 
-  constructor(_productRepository: ProductGateway) {
+  constructor(_productRepository: ProductAdmGateway) {
     this._productRepository = _productRepository;
   }
 

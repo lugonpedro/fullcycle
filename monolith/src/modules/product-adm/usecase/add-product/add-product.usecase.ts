@@ -1,12 +1,12 @@
 import Id from "../../../@shared/domain/value-object/id.value-object";
 import Product from "../../domain/product.entity";
-import ProductGateway from "../../gateway/product.gateway";
+import ProductAdmGateway from "../../gateway/product-adm.gateway";
 import { AddProductInputDto, AddProductOutputDto } from "./add-product.dto";
 
 export default class AddProductUseCase {
-  private _productRepository: ProductGateway;
+  private _productRepository: ProductAdmGateway;
 
-  constructor(_productRepository: ProductGateway) {
+  constructor(_productRepository: ProductAdmGateway) {
     this._productRepository = _productRepository;
   }
 

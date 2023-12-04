@@ -3,8 +3,8 @@ import {
   AddProductFacadeInputDto,
   CheckProductFacadeInputDto,
   CheckProductFacadeOutputDto,
-} from "./product.facade.dto";
-import ProductFacadeInterface from "./product.facade.interface";
+} from "./product-adm.facade.dto";
+import ProductFacadeInterface from "./product-adm.facade.interface";
 
 export interface UseCasesProps {
   addUsecase: UseCaseInterface;
