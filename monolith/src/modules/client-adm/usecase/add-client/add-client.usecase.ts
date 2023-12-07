@@ -7,7 +7,7 @@ import {
   AddClientOutputDto,
 } from "./add-client.usecase.dto";
 
-export default class AddClientUseCase {
+export default class AddClientUseCase implements UseCaseInterface {
   private _clientRepository: ClientGateway;
 
   constructor(clientRepository: ClientGateway) {
