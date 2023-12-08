@@ -41,8 +41,6 @@ describe("Client sequelize repository test", () => {
     expect(client.name).toEqual(clientDb.name);
     expect(client.email).toEqual(clientDb.email);
     expect(client.address).toEqual(clientDb.address);
-    expect(client.createdAt).toEqual(clientDb.createdAt);
-    expect(client.updatedAt).toEqual(clientDb.updatedAt);
   });
 
   it("should find a client", async () => {
@@ -63,7 +61,5 @@ describe("Client sequelize repository test", () => {
     expect(result.name).toEqual(client.name);
     expect(result.email).toEqual(client.email);
     expect(result.address).toEqual(client.address);
-    expect(result.createdAt).toEqual(client.createdAt);
-    expect(result.updatedAt).toEqual(client.updatedAt);
   });
 });

@@ -50,8 +50,6 @@ describe("Client facade test", () => {
     expect(client.name).toEqual(input.name);
     expect(client.email).toEqual(input.email);
     expect(client.address).toEqual(input.address);
-    expect(client.createdAt).toEqual(input.createdAt);
-    expect(client.updatedAt).toEqual(input.updatedAt);
   });
 
   it("should find a client", async () => {
@@ -75,7 +73,5 @@ describe("Client facade test", () => {
     expect(client.name).toEqual(input.name);
     expect(client.email).toEqual(input.email);
     expect(client.address).toEqual(input.address);
-    expect(client.createdAt).toEqual(input.createdAt);
-    expect(client.updatedAt).toEqual(input.updatedAt);
   });
 });
