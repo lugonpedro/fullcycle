@@ -30,7 +30,7 @@ export default class GenerateInvoiceUseCase implements UseCaseInterface {
 
     const invoice = new Invoice({
       name: input.name,
-      document: input.name,
+      document: input.document,
       address: address,
       items: input.items.map(
         (item) =>
