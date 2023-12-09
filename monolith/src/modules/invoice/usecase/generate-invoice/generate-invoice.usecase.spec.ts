@@ -1,4 +1,5 @@
 import Id from "../../../@shared/domain/value-object/id.value-object";
+import { InvoiceItem } from "../../domain/entity/invoice-item.entity";
 import Invoice from "../../domain/entity/invoice.entity";
 import { Address } from "../../domain/value-object/address.value-object";
 import GenerateInvoiceUseCase from "./generate-invoice.usecase";
@@ -12,17 +13,17 @@ const address = new Address({
   zip: "123456",
 });
 
+const invoiceItem = new InvoiceItem({
+  id: new Id("1"),
+  price: 100,
+  name: "Item 1",
+});
+
 const invoice = new Invoice({
   name: "Invoice 1",
   document: "123456",
   address: address,
-  items: [
-    {
-      id: new Id("1"),
-      price: 100,
-      name: "Item 1",
-    },
-  ],
+  items: [invoiceItem],
   createdAt: new Date(),
 });
 
