@@ -1,7 +1,7 @@
-import Address from "../../../@shared/domain/value-object/address.value-object";
 import Id from "../../../@shared/domain/value-object/id.value-object";
 import UseCaseInterface from "../../../@shared/usecase/use-case.interface";
-import Invoice from "../../domain/invoice.entity";
+import Invoice from "../../domain/entity/invoice.entity";
+import { Address } from "../../domain/value-object/address.value-object";
 import InvoiceGateway from "../../gateway/invoice.gateway";
 import {
   GenerateInvoiceUseCaseInputDto,
@@ -18,12 +18,14 @@ export default class GenerateInvoiceUseCase implements UseCaseInterface {
   async execute(
     input: GenerateInvoiceUseCaseInputDto
   ): Promise<GenerateInvoiceUseCaseOutputDto> {
-    const address = new Address(
-      input.street,
-      input.number,
-      input.zip,
-      input.city
-    );
+    const address = new Address({
+      street: input.street,
+      number: input.number,
+      zip: input.zip,
+      city: input.city,
+      state: input.state,
+      complement: input.complement,
+    });
 
     const invoice = new Invoice({
       name: input.name,
@@ -47,6 +49,8 @@ export default class GenerateInvoiceUseCase implements UseCaseInterface {
       number: result.address.number,
       city: result.address.city,
       zip: result.address.zip,
+      state: result.address.state,
+      complement: result.address.complement,
       items: result.items.map((item) => ({
         id: item.id.id,
         price: item.price,

@@ -1,9 +1,16 @@
-import Address from "../../../@shared/domain/value-object/address.value-object";
 import Id from "../../../@shared/domain/value-object/id.value-object";
-import Invoice from "../../domain/invoice.entity";
+import Invoice from "../../domain/entity/invoice.entity";
+import { Address } from "../../domain/value-object/address.value-object";
 import GenerateInvoiceUseCase from "./generate-invoice.usecase";
 
-const address = new Address("Street 1", 1, "123456", "City");
+const address = new Address({
+  street: "Rua 1",
+  number: "123",
+  complement: "Perto do hospital",
+  city: "Brasília",
+  state: "DF",
+  zip: "123456",
+});
 
 const invoice = new Invoice({
   name: "Invoice 1",
@@ -35,9 +42,11 @@ describe("Generate invoice use case unit test", () => {
       name: "Invoice 1",
       document: "123456",
       street: "Street 1",
-      number: 1,
+      number: "123",
       city: "City",
       zip: "123456",
+      state: "State",
+      complement: "Complement",
       items: [{ id: "1", name: "Item 1", price: 100 }],
     };
 

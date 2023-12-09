@@ -2,9 +2,11 @@ export interface GenerateInvoiceUseCaseInputDto {
   name: string;
   document: string;
   street: string;
-  number: number;
+  number: string;
   city: string;
   zip: string;
+  state: string;
+  complement: string;
   items: {
     id: string;
     name: string;
@@ -17,9 +19,11 @@ export interface GenerateInvoiceUseCaseOutputDto {
   name: string;
   document: string;
   street: string;
-  number: number;
+  number: string;
   city: string;
   zip: string;
+  state: string;
+  complement: string;
   items: {
     id: string;
     name: string;

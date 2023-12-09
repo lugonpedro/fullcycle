@@ -1,22 +1,36 @@
-import Address from "../../../@shared/domain/value-object/address.value-object";
 import Id from "../../../@shared/domain/value-object/id.value-object";
-import Invoice from "../../domain/invoice.entity";
+import { InvoiceItem } from "../../domain/entity/invoice-item.entity";
+import Invoice from "../../domain/entity/invoice.entity";
+import { Address } from "../../domain/value-object/address.value-object";
 import FindInvoiceUseCase from "./find-invoice.usecase";
 
-const address = new Address("Street 1", 1, "123456", "City");
+const address = new Address({
+  street: "Rua 1",
+  number: "123",
+  complement: "Perto do hospital",
+  city: "Brasília",
+  state: "DF",
+  zip: "123456",
+});
+
+const product1 = new InvoiceItem({
+  id: new Id("1"),
+  name: "Product 1",
+  price: 100,
+});
+
+const product2 = new InvoiceItem({
+  id: new Id("2"),
+  name: "Product 2",
+  price: 200,
+});
 
 const invoice = new Invoice({
   id: new Id("1"),
   name: "Invoice 1",
   document: "123456",
   address: address,
-  items: [
-    {
-      id: new Id("1"),
-      price: 100,
-      name: "Item 1",
-    },
-  ],
+  items: [product1, product2],
   createdAt: new Date(),
 });
 
@@ -46,9 +60,14 @@ describe("Find invoice use case unit test", () => {
     expect(result.address.number).toBe(invoice.address.number);
     expect(result.address.zip).toBe(invoice.address.zip);
     expect(result.address.city).toBe(invoice.address.city);
+    expect(result.address.state).toBe(invoice.address.state);
+    expect(result.address.complement).toBe(invoice.address.complement);
     expect(result.items[0].id).toBe(invoice.items[0].id.id);
     expect(result.items[0].name).toBe(invoice.items[0].name);
     expect(result.items[0].price).toBe(invoice.items[0].price);
+    expect(result.items[1].id).toBe(invoice.items[1].id.id);
+    expect(result.items[1].name).toBe(invoice.items[1].name);
+    expect(result.items[1].price).toBe(invoice.items[1].price);
     expect(result.createdAt).toBe(invoice.createdAt);
   });
 });
