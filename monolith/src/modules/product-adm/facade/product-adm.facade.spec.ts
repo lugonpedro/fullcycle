@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import ProductModel from "../repository/sequelize/product.model";
-import ProductFacadeFactory from "../factory/product-adm.facade.factory";
+import ProductAdmFacadeFactory from "../factory/product-adm.facade.factory";
 
 describe("Product facade test", () => {
   let sequelize: Sequelize;
@@ -22,7 +22,7 @@ describe("Product facade test", () => {
   });
 
   it("should create a product", async () => {
-    const productFacadeFactory = ProductFacadeFactory.create();
+    const productFacadeFactory = ProductAdmFacadeFactory.create();
 
     const input = {
       id: "1",
@@ -45,7 +45,7 @@ describe("Product facade test", () => {
   });
 
   it("should check stock of a product", async () => {
-    const productFacadeFactory = ProductFacadeFactory.create();
+    const productFacadeFactory = ProductAdmFacadeFactory.create();
     const input = {
       id: "1",
       name: "Product 1",

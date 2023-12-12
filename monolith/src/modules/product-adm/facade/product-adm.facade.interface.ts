@@ -4,7 +4,7 @@ import {
   CheckProductFacadeOutputDto,
 } from "./product-adm.facade.dto";
 
-export default interface ProductFacadeInterface {
+export default interface ProductAdmFacadeInterface {
   addProduct(input: AddProductFacadeInputDto): Promise<void>;
 
   checkStock(
