@@ -58,9 +58,9 @@ describe("Product facade test", () => {
 
     await productFacadeFactory.addProduct(input);
 
-    const result = await productFacadeFactory.checkStock({ id: "1" });
+    const result = await productFacadeFactory.checkStock({ productId: "1" });
 
-    expect(result.id).toBe(input.id);
+    expect(result.productId).toBe(input.id);
     expect(result.stock).toBe(input.stock);
   });
 });
