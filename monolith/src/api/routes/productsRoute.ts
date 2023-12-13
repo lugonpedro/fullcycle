@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
-import ProductAdmFacadeFactory from "../modules/product-adm/factory/product-adm.facade.factory";
-import { AddProductFacadeInputDto } from "../modules/product-adm/facade/product-adm.facade.dto";
+import ProductAdmFacadeFactory from "../../modules/product-adm/factory/product-adm.facade.factory";
+import { AddProductFacadeInputDto } from "../../modules/product-adm/facade/product-adm.facade.dto";
 
-export const addProductRoute = express.Router();
+export const productsRoute = express.Router();
 
-addProductRoute.post("/", async (req: Request, res: Response) => {
+productsRoute.post("/", async (req: Request, res: Response) => {
   const facade = ProductAdmFacadeFactory.create();
 
   try {
