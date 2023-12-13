@@ -13,7 +13,7 @@ productsRoute.post("/", async (req: Request, res: Response) => {
       name: req.body.name,
       description: req.body.description,
       purchasePrice: req.body.purchasePrice,
-      stock: req.body.stock ?? 0,
+      stock: req.body.stock,
     };
 
     const output = await facade.addProduct(input);
