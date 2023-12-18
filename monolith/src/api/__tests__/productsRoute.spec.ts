@@ -21,6 +21,7 @@ describe("API /products e2e tests", () => {
       dialect: "sqlite",
       storage: ":memory:",
       logging: false,
+      sync: { force: true },
     });
 
     sequelize.addModels([ProductAdmModel, ProductStoreModel]);
