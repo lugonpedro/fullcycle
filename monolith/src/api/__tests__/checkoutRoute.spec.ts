@@ -3,10 +3,14 @@ import { Umzug } from "umzug";
 import { migrator } from "../../test-migrations/config/migrator";
 import express, { Express } from "express";
 import { Sequelize } from "sequelize-typescript";
-import ClientModel from "../../modules/client-adm/repository/sequelize/client.model";
-import ProductModel from "../../modules/product-adm/repository/sequelize/product.model";
 import { checkoutRoute } from "../routes/checkoutRoute";
 import OrderModel from "../../modules/checkout/repository/sequelize/order.model";
+import ClientModel from "../../modules/client-adm/repository/sequelize/client.model";
+import ProductModel from "../../modules/checkout/repository/sequelize/product.model";
+import ProductAdmModel from "../../modules/product-adm/repository/sequelize/product.model";
+import ProductStoreModel from "../../modules/store-catalog/repository/sequelize/product.model";
+import TransactionModel from "../../modules/payment/repository/sequelize/transaction.model";
+import InvoiceModel from "../../modules/invoice/repository/sequelize/invoice.model";
 
 describe("API /checkout e2e tests", () => {
   const app: Express = express();
@@ -15,6 +19,8 @@ describe("API /checkout e2e tests", () => {
 
   let sequelize: Sequelize;
 
+  let migration: Umzug<any>;
+
   beforeEach(async () => {
     sequelize = new Sequelize({
       dialect: "sqlite",
@@ -22,45 +28,66 @@ describe("API /checkout e2e tests", () => {
       logging: false,
     });
 
-    sequelize.addModels([OrderModel, ProductModel, ClientModel]);
-    await sequelize.sync()
+    sequelize.addModels([
+      OrderModel,
+      ClientModel,
+      ProductModel,
+      ProductAdmModel,
+      ProductStoreModel,
+      TransactionModel,
+      InvoiceModel,
+    ]);
+    migration = migrator(sequelize);
+    await migration.up();
+    // await sequelize.sync();
   });
 
   afterEach(async () => {
-    await sequelize.close();
+    if (!migration || !sequelize) {
+      return;
+    }
+    migration = migrator(sequelize);
+    await migration.down();
+    // await sequelize.close();
   });
 
   it("should do the checkout", async () => {
-    // await ClientModel.create({
-    //   id: "1",
-    //   name: "Client 1",
-    //   email: "client@example.com",
-    //   address: "Address 1",
-    //   document: "0000",
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // });
+    await ClientModel.create({
+      id: "1",
+      name: "Client 1",
+      email: "Client 1 description",
+      address: "Quadra 1 Rua 1 Casa 1",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
 
-    // await ProductModel.create({
+    await ProductModel.create({
+      id: "1",
+      name: "Product 1",
+      description: "Product 1 description",
+      purchasePrice: 100,
+      salesPrice: 100,
+      stock: 10,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    await ProductModel.create({
+      id: "2",
+      name: "Product 2",
+      description: "Product 2 description",
+      purchasePrice: 200,
+      salesPrice: 200,
+      stock: 20,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    // await ProductStoreModel.create({
     //   id: "1",
     //   name: "Product 1",
-    //   description: "Product description",
-    //   purchasePrice: 100,
+    //   description: "Description 1",
     //   salesPrice: 100,
-    //   stock: 10,
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // });
-
-    // await ProductModel.create({
-    //   id: "2",
-    //   name: "Product 2",
-    //   description: "Product description",
-    //   purchasePrice: 25,
-    //   salesPrice: 25,
-    //   stock: 10,
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
     // });
 
     const response = await request(app)
@@ -73,7 +100,7 @@ describe("API /checkout e2e tests", () => {
     expect(response.status).toEqual(200);
     expect(response.body.id).toBeDefined();
     expect(response.body.invoiceId).toBeDefined();
-    expect(response.body.total).toEqual(125);
+    expect(response.body.total).toEqual(300);
     expect(response.body.status).toEqual("approved");
   });
 });

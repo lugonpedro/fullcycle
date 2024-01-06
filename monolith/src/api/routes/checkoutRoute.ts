@@ -36,6 +36,7 @@ checkoutRoute.post("/", async (req: Request, res: Response) => {
     const output = await usecase.execute(input);
     res.status(200).send(output);
   } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
 });
