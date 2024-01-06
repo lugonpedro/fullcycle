@@ -13,8 +13,6 @@ describe("API /clients e2e tests", () => {
 
   let sequelize: Sequelize;
 
-  let migration: Umzug<any>;
-
   beforeEach(async () => {
     sequelize = new Sequelize({
       dialect: "sqlite",
@@ -23,16 +21,10 @@ describe("API /clients e2e tests", () => {
     });
 
     sequelize.addModels([ClientModel]);
-    migration = migrator(sequelize);
-    await migration.up();
+    await sequelize.sync()
   });
 
   afterEach(async () => {
-    if (!migration || !sequelize) {
-      return;
-    }
-    migration = migrator(sequelize);
-    await migration.down();
     await sequelize.close();
   });
 

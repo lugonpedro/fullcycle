@@ -4,8 +4,7 @@ import { migrator } from "../../test-migrations/config/migrator";
 import express, { Express } from "express";
 import { Sequelize } from "sequelize-typescript";
 import { productsRoute } from "../routes/productsRoute";
-import ProductAdmModel from "../../modules/product-adm/repository/sequelize/product.model";
-import ProductStoreModel from "../../modules/store-catalog/repository/sequelize/product.model";
+import ProductModel from "../../modules/product-adm/repository/sequelize/product.model";
 
 describe("API /products e2e tests", () => {
   const app: Express = express();
@@ -14,7 +13,6 @@ describe("API /products e2e tests", () => {
 
   let sequelize: Sequelize;
 
-  let migration: Umzug<any>;
 
   beforeEach(async () => {
     sequelize = new Sequelize({
@@ -24,17 +22,11 @@ describe("API /products e2e tests", () => {
       sync: { force: true },
     });
 
-    sequelize.addModels([ProductAdmModel, ProductStoreModel]);
-    migration = migrator(sequelize);
-    await migration.up();
+    sequelize.addModels([ProductModel]);
+    await sequelize.sync()
   });
 
   afterEach(async () => {
-    if (!migration || !sequelize) {
-      return;
-    }
-    migration = migrator(sequelize);
-    await migration.down();
     await sequelize.close();
   });
 

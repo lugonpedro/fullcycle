@@ -5,12 +5,16 @@ import OrderModel from "./order.model";
 
 export default class OrderRepository implements CheckoutGateway {
   async addOrder(order: Order): Promise<void> {
-    await OrderModel.create({
-      id: order.id.id,
-      client: order.client,
-      products: order.products,
-      status: order.status,
-    });
+    try {
+      await OrderModel.create({
+        id: order.id.id,
+        client: order.client,
+        products: order.products,
+        status: order.status,
+      });
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async findOrder(id: string): Promise<Order> {
